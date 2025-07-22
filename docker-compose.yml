@@ -1,0 +1,68 @@
+version: "3.8"
+
+services:
+
+  clining_app:
+    container_name: clining_app
+    build:
+      context: clining_app
+      dockerfile: .docker/Dockerfile
+    command: python -m gunicorn --timeout 120 clining_app.wsgi:application --bind 0.0.0.0:8000
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_NAME=postgres
+      - DB_USER=postgres
+      - DB_PASSWORD=3803
+    volumes:
+      - media_volume:/media
+      - backend_static:/backend_static
+    expose:
+      - 8000
+    ports:
+      - "8000:8000"
+    networks:
+      - clin
+    depends_on:
+      - db
+    restart: always
+
+  db:
+    image: postgres:16.3
+    container_name: db
+    restart: always
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 3803
+      POSTGRES_INITDB_ARGS: "-A md5"
+    networks:
+      - clin
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  nginx:
+    build:
+      context: ./
+      dockerfile: nginx/Dockerfile
+    volumes:
+      - media_volume:/media
+      - backend_static:/backend_static
+    ports:
+      - "80:80"
+    depends_on:
+      - clining_app
+    networks:
+      - clin
+    restart: always
+
+networks:
+  clin:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  media_volume:
+  backend_static:
