@@ -29,7 +29,7 @@ func ConnectDatabasePostgre() {
 	if err != nil {
 		log.Fatal("Failed to connect to database:", err)
 	}
-	db.AutoMigrate(&models.User{}, )
+	db.AutoMigrate(&models.Client{}, &models.Service{}, &models.RoomType{}, &models.Order{}, &models.ServicePrice{}, &models.ExtraService{}, &models.Surcharge{})
 
 	DbPostgre = db
 }
