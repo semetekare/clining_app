@@ -1,0 +1,657 @@
+openapi: 3.0.3
+info:
+  title: Clining App API
+  version: "1.0.0"
+  description: |
+    OpenAPI спецификация для Clining App.
+    Включены эндпоинты: /Ok, /services, /roomtypes, /surcharges, /serviceprices, /extraservices, /clients, /orders.
+
+servers:
+  - url: http://clining_app:8000
+    description: Docker internal (backend)
+  - url: http://localhost:8000
+    description: Localhost (if backend доступен локально)
+  - url: http://nginx
+    description: Через nginx reverse-proxy в compose
+
+paths:
+  /Ok:
+    get:
+      summary: OK health check
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "ok"
+
+  /services:
+    post:
+      summary: Create a Service
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ServiceCreate"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Service"
+    get:
+      summary: List Services
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Service"
+
+  /services/{id}:
+    parameters:
+      - $ref: "#/components/parameters/IdParam"
+    get:
+      summary: Get Service by ID
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Service"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    put:
+      summary: Update Service
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Service"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Service"
+    delete:
+      summary: Delete Service
+      responses:
+        "204":
+          description: No Content
+
+  /roomtypes:
+    post:
+      summary: Create RoomType
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RoomTypeCreate"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RoomType"
+    get:
+      summary: List RoomTypes
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/RoomType"
+
+  /roomtypes/{id}:
+    parameters:
+      - $ref: "#/components/parameters/IdParam"
+    get:
+      summary: Get RoomType by ID
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RoomType"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    put:
+      summary: Update RoomType
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RoomType"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RoomType"
+    delete:
+      summary: Delete RoomType
+      responses:
+        "204":
+          description: No Content
+
+  /surcharges:
+    post:
+      summary: Create Surcharge
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SurchargeCreate"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Surcharge"
+    get:
+      summary: List Surcharges
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Surcharge"
+
+  /surcharges/{id}:
+    parameters:
+      - $ref: "#/components/parameters/IdParam"
+    get:
+      summary: Get Surcharge by ID
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Surcharge"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    put:
+      summary: Update Surcharge
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Surcharge"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Surcharge"
+    delete:
+      summary: Delete Surcharge
+      responses:
+        "204":
+          description: No Content
+
+  /serviceprices:
+    post:
+      summary: Create ServicePrice
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ServicePriceCreate"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServicePrice"
+    get:
+      summary: List ServicePrices
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ServicePrice"
+
+  /serviceprices/{id}:
+    parameters:
+      - $ref: "#/components/parameters/IdParam"
+    get:
+      summary: Get ServicePrice by ID
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServicePrice"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    put:
+      summary: Update ServicePrice
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ServicePrice"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServicePrice"
+    delete:
+      summary: Delete ServicePrice
+      responses:
+        "204":
+          description: No Content
+
+  /extraservices:
+    post:
+      summary: Create ExtraService
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ExtraServiceCreate"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExtraService"
+    get:
+      summary: List ExtraServices
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ExtraService"
+
+  /extraservices/{id}:
+    parameters:
+      - $ref: "#/components/parameters/IdParam"
+    get:
+      summary: Get ExtraService by ID
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExtraService"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    put:
+      summary: Update ExtraService
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ExtraService"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExtraService"
+    delete:
+      summary: Delete ExtraService
+      responses:
+        "204":
+          description: No Content
+
+  /clients:
+    post:
+      summary: Create Client
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ClientCreate"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Client"
+    get:
+      summary: List Clients
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Client"
+
+  /clients/{id}:
+    parameters:
+      - $ref: "#/components/parameters/IdParam"
+    get:
+      summary: Get Client by ID
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Client"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    put:
+      summary: Update Client
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Client"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Client"
+    delete:
+      summary: Delete Client
+      responses:
+        "204":
+          description: No Content
+
+  /orders:
+    post:
+      summary: Create Order
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrderCreate"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+    get:
+      summary: List Orders
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Order"
+
+  /orders/{id}:
+    parameters:
+      - $ref: "#/components/parameters/IdParam"
+    get:
+      summary: Get Order by ID
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    put:
+      summary: Update Order
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Order"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+    delete:
+      summary: Delete Order
+      responses:
+        "204":
+          description: No Content
+
+components:
+  parameters:
+    IdParam:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+      description: Resource ID
+
+  responses:
+    NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          example: "Not found"
+
+    Service:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "Cleaning basic"
+        description:
+          type: string
+          example: "Basic room cleaning"
+        price:
+          type: number
+          format: float
+          example: 12.5
+    ServiceCreate:
+      type: object
+      required: [name, price]
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+          format: float
+
+    RoomType:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+    RoomTypeCreate:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+
+    Surcharge:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        amount:
+          type: number
+          format: float
+    SurchargeCreate:
+      type: object
+      required: [name, amount]
+      properties:
+        name:
+          type: string
+        amount:
+          type: number
+          format: float
+
+    ServicePrice:
+      type: object
+      properties:
+        id:
+          type: integer
+        service_id:
+          type: integer
+        price:
+          type: number
+          format: float
+        currency:
+          type: string
+    ServicePriceCreate:
+      type: object
+      required: [service_id, price]
+      properties:
+        service_id:
+          type: integer
+        price:
+          type: number
+          format: float
+        currency:
+          type: string
+
+    ExtraService:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        price:
+          type: number
+          format: float
+    ExtraServiceCreate:
+      type: object
+      required: [name, price]
+      properties:
+        name:
+          type: string
+        price:
+          type: number
+          format: float
+
+    Client:
+      type: object
+      properties:
+        id:
+          type: integer
+        full_name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+    ClientCreate:
+      type: object
+      required: [full_name]
+      properties:
+        full_name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+
+    Order:
+      type: object
+      properties:
+        id:
+          type: integer
+        client_id:
+          type: integer
+        services:
+          type: array
+          items:
+            $ref: "#/components/schemas/Service"
+        total:
+          type: number
+          format: float
+    OrderCreate:
+      type: object
+      required: [client_id]
+      properties:
+        client_id:
+          type: integer
+        services:
+          type: array
+          items:
+            type: integer
+            description: service ID

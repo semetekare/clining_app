@@ -4,9 +4,8 @@ import (
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
-	"gorm.io/gorm"
-	"app/models"
-	"app/service"
+	"clining_app/app/models"
+	"clining_app/app/service"
 )
 
 type ServiceController struct {
